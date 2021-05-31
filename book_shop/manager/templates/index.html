@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>Bootstrap Main Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+{{ user }}
+{% for book in books %}
+    <h1> {{ book.title }} </h1>
+    <h2> {{ book.date }} </h2>
+    <h3> {{ book.description }} </h3>
+    <br><br>
+    {% if book.comments.exists %}
+        <i><h4> Количество комментариев: {{book.comments.count}} </h4></i>
+    {% endif %}
+    {% for comment in book.comments.all %}
+        <h4> {{comment.text}} </h4>
+        <h5> {{comment.date}} </h5>
+        <h6> {{comment.author}} </h6>
+        <br><br>
+    {% endfor %}
+{% endfor %}
+</body>
+</html>
