@@ -43,6 +43,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.auth_user" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_likebookuser" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.django_migrations" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_comment" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_book" active-filter-id="EMPTY_FILTER" />
