@@ -1,24 +1,22 @@
 {% extends 'main_template.html' %}
-{% block main %}
-    <i><h2> Welcome to our shop, dear {{ user }} </h2></i>
-
-    {% for book in books %}
-        <a href="{% url 'book_detail' id=book.id %}"><h1> {{ book.title }} </h1></a>
+<body>
+<div class="container">
+{% block detail %}
+        <h1> {{ book.title }} </h1>
         <h2> {{ book.date }} </h2>
         <h3> {{ book.description }} </h3>
 
       {% for i in stars %}
         {% if book.rating >= i  %}
-            <a href="{% url 'add_rate' id=book.id rate=i %}"><span class="fa fa-star checked"></span></a>
+            <a href="{% url 'add_rate_location' id=book.id rate=i location=1 %}"><span class="fa fa-star checked"></span></a>
         {% else %}
-            <a href="{% url 'add_rate' id=book.id rate=i %}"><span class="fa fa-star"></span></a>
+            <a href="{% url 'add_rate_location' id=book.id rate=i location=1 %}"><span class="fa fa-star"></span></a>
         {% endif%}
     {% endfor %}
     <h3> {{ book.rating }} </h3>
         {% for author in book.authors.all %}
             <h4> Авторы книги:  </h4>
             <i><h4> {{ author }}</h4></i>
-
         {% endfor %}
 
 
@@ -34,5 +32,7 @@
             <a href="{% url 'add_comment_like' id=comment.id %}"> <h5>Likes : {{ comment.count_like }} </h5></a>
             <br><br>
         {% endfor %}
-    {% endfor %}
 {% endblock %}
+</div>
+</body>
+</html>

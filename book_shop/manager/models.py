@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from slugify import slugify
 
 
 class Book(models.Model):
@@ -13,16 +14,29 @@ class Book(models.Model):
     description = models.TextField(null=True, default='Book description to be added soon')
     authors = models.ManyToManyField(User, related_name='books')
     likes = models.PositiveIntegerField(null=True, default=0)
+    rating = models.FloatField(null=True, default=5.0)
+    total_stars = models.PositiveIntegerField(null=True, default=0)
+    slug = models.SlugField(null=True, unique=True)
 
     def __str__(self):
         return f'{self.id} - {self.title}'
 
+    def save(self, **kwargs):
+        if self.id is None:
+            self.slug = slugify(self.title)
+        try:
+            super().save(**kwargs)
+        except:
+            self.slug += str(self.id)
+            super().save(**kwargs)
 
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    likes = models.PositiveIntegerField(null=True, default=0)
+
 
     def __str__(self):
         return f'комментарий № {self.id}'
@@ -34,13 +48,35 @@ class LikeBookUser(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_likes')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='users_like')
+    rate = models.PositiveIntegerField(null=True, default=0)
 
     def save(self, *args, **kwargs):
         try:
-            super(LikeBookUser, self).save()
-            self.book.likes += 1
-        except Exception as e:
-            self.book.likes -= 1
-            LikeBookUser.objects.get(book=self.book, user=self.user).delete()
-            print(f'Like has already been added, here is an exception description: {e}')
+            super().save()
+        except:
+            lbu = LikeBookUser.objects.get(book=self.book, user=self.user)
+            self.book.total_stars -= lbu.rate
+            lbu.delete()
+            super().save()
+
+        self.book.total_stars += self.rate
+        self.book.rating = self.book.total_stars / self.book.book_likes.count()
         self.book.save()
+
+
+class LikeCommentUser(models.Model):
+    class Meta:
+        unique_together = ['comment', 'user']
+
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='users_comment_likes')
+
+    def save(self, *args, **kwargs):
+        try:
+            super(LikeCommentUser, self).save()
+            self.comment.likes += 1
+        except Exception as e:
+            self.comment.likes -= 1
+            LikeCommentUser.objects.get(comment=self.comment, user=self.user).delete()
+            print(f'Like has already been added, here is an exception description: {e}')
+        self.comment.save()
