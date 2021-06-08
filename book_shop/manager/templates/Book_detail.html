@@ -8,9 +8,9 @@
 
       {% for i in stars %}
         {% if book.rating >= i  %}
-            <a href="{% url 'add_rate_location' id=book.id rate=i location=1 %}"><span class="fa fa-star checked"></span></a>
+            <a href="{% url 'add_rate_location' slug=book.slug rate=i location=1 %}"><span class="fa fa-star checked"></span></a>
         {% else %}
-            <a href="{% url 'add_rate_location' id=book.id rate=i location=1 %}"><span class="fa fa-star"></span></a>
+            <a href="{% url 'add_rate_location' slug=book.slug rate=i location=1 %}"><span class="fa fa-star"></span></a>
         {% endif%}
     {% endfor %}
     <h3> {{ book.rating }} </h3>
@@ -29,9 +29,17 @@
             <h4> {{comment.text}} </h4>
             <h5> {{comment.date}} </h5>
             <h6> {{comment.author}} </h6>
-            <a href="{% url 'add_comment_like' id=comment.id %}"> <h5>Likes : {{ comment.count_like }} </h5></a>
+            <a href="{% url 'add_comment_like_location' id=comment.id  location=1%}"> <h5>Likes : {{ comment.count_like }} </h5></a>
             <br><br>
         {% endfor %}
+{% if user.is_authenticated %}
+<form action="{% url 'add_comment' slug=book.slug %}" method="post">
+    {% csrf_token %}
+    {{ comment_form }}
+    <br>
+    <input type="submit" value="Оставить комментарий">
+</form>
+{% endif %}
 {% endblock %}
 </div>
 </body>

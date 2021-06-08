@@ -2,6 +2,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from slugify import slugify
 
+class TestTable(models.Model):
+    title = models.CharField(max_length=50, primary_key=True)
+
+class TestComment(models.Model):
+    test = models.ForeignKey(TestTable, on_delete=models.CASCADE, db_column='title')
 
 class Book(models.Model):
     class Meta:
@@ -14,7 +19,7 @@ class Book(models.Model):
     description = models.TextField(null=True, default='Book description to be added soon')
     authors = models.ManyToManyField(User, related_name='books')
     likes = models.PositiveIntegerField(null=True, default=0)
-    rating = models.FloatField(null=True, default=5.0)
+    rating = models.FloatField(null=True, default=0.0)
     total_stars = models.PositiveIntegerField(null=True, default=0)
     slug = models.SlugField(null=True, unique=True)
 
@@ -50,6 +55,9 @@ class LikeBookUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='users_like')
     rate = models.PositiveIntegerField(null=True, default=0)
 
+    def __str__(self):
+        return f'Книга {self.book}, пользователь {self.user}, оценка {self.rate}'
+
     def save(self, *args, **kwargs):
         try:
             super().save()
@@ -80,3 +88,4 @@ class LikeCommentUser(models.Model):
             LikeCommentUser.objects.get(comment=self.comment, user=self.user).delete()
             print(f'Like has already been added, here is an exception description: {e}')
         self.comment.save()
+
