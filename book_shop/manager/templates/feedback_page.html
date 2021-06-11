@@ -1,0 +1,12 @@
+{% extends 'main_template.html' %}
+<body>
+{% block feedback %}
+{% if user.is_authenticated %}
+  <form action="{% url 'add_feedback' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+  <input type="submit" value="Отправить">
+  </form>
+{% endif %}
+{% endblock %}
+</body>

@@ -25,8 +25,24 @@
             <h4> Авторы книги:  </h4>
             <i><h4> {{ author }}</h4></i>
         {% endfor %}
-        <br><br>
+        <br>
+        {% if book.is_owner %}
+            <a href="{% url 'delete_book' slug=book.slug %}">
+                <i>
+                    <input class="btn btn-danger" type="button" value="delete book" >
+
+                </i>
+            </a>
+            <a href="{% url 'update_book' slug=book.slug %}">
+                <i>
+                    <input class="btn btn-light" type="button" value="update book" >
+
+                </i>
+            </a>
+        {% endif %}
     {% endfor %}
+
+
 {% if user.is_authenticated %}
 
 <form action="{% url 'add_book' %}" method="post">
@@ -35,4 +51,10 @@
     <input type="submit" value="Добавить Книгу на Сайт">
 </form>
 {% endif %}
+
+<br><br>
+<a href="{% url 'feedback_page' %}"> Написать отзыв </a>
+<br><br>
+
+
 {% endblock %}

@@ -21,7 +21,6 @@
 
 
         <br><br>
-        <a href="{% url 'add_like' id=book.id %}"> likes: {{ book.likes }} </a>
         {% if book.comments.exists %}
             <i><h4> Количество комментариев: {{ book.count }} </h4></i>
         {% endif %}

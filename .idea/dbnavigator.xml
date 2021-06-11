@@ -26,7 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9">
-        <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
+        <schema name="main" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -51,6 +51,7 @@
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_comment" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_book" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_book_authors" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_tmpbook" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.manager_testtable" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="e2dc3153-7d81-473b-9325-26b87b82c9b9" dataset="main.django_session" active-filter-id="EMPTY_FILTER" />
   </component>
