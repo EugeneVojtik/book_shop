@@ -1,0 +1,21 @@
+{% extends 'main_template.html' %}
+
+{% block basket_page %}
+<body>
+<div class="container">
+<h2> Here is you basket </h2>
+
+{% for product in products %}
+  <h4> {{ product.product.title }} рублей</h4>
+  <h4> {{ product.product.price }} рублей</h4>
+  <a href="{% url 'remove_from_basket' slug=product.product.slug %}">
+  <input class="btn btn-light" type="button" value="убрать из корзины">
+  </a>
+  <br>
+{% endfor %}
+  <h2> Итого: {{ avg.total }} рублей </h2>
+
+</div>
+</body>
+
+{% endblock %}

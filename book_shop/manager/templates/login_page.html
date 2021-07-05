@@ -1,9 +1,0 @@
-{% extends 'main_template.html' %}
-
-{% block login %}
-<form action="{% url 'login_page' %}" method="post">
-{% csrf_token %}
-    {{ form }}
-<input type="submit" values="Войти">
-</form>
-{% endblock %}

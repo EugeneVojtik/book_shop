@@ -1,0 +1,14 @@
+{% extends 'main_template.html' %}
+
+{% block users_account %}
+<body>
+<div class="container">
+<h2> Welcome to personal room dear {{user}} </h2>
+    <h3>here is a list of your books in read: </h3>
+    {% for obj in read_books %}
+    <li> <a href="{% url 'book_detail' slug=obj.book.slug %}"> {{ obj.book }}</a> </li>
+    {% endfor %}
+</div>
+</body>
+
+{% endblock %}

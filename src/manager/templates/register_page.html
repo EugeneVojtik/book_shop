@@ -1,0 +1,15 @@
+{% extends 'main_template.html' %}
+
+<body>
+{% block register_block %}
+{% for msg in messages %}
+    <li class="{{ msg.tags }}"> {{ msg }}</li>
+{% endfor %}
+<br><br>
+<form action="{% url 'register_page' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Register">
+</form>
+{% endblock %}
+</body>
