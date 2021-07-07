@@ -1,19 +1,24 @@
 {% extends 'main_template.html' %}
+
 <body>
 <div class="container">
 {% block detail %}
+{% load static %}
         <h1> {{ book.title }} </h1>
         <h2> {{ book.date }} </h2>
         <h3> {{ book.description }} </h3>
 
+    <div class="block-rating">
       {% for i in stars %}
         {% if book.rating >= i  %}
-            <a href="{% url 'add_rate_location' slug=book.slug rate=i location=1 %}"><span class="fa fa-star checked"></span></a>
+            <span class="fa fa-star checked" id="star_checked {{ i }} {{ book.slug }}"></span>
         {% else %}
-            <a href="{% url 'add_rate_location' slug=book.slug rate=i location=1 %}"><span class="fa fa-star"></span></a>
+            <span class="fa fa-star" id="star {{ i }} {{ book.slug }}"></span>
         {% endif%}
     {% endfor %}
-    <h3> {{ book.rating }} </h3>
+
+    <h3 class="book_rating"> Rating: {{ book.rating }} </h3>
+    </div>
         {% for author in book.authors.all %}
             <h4> Авторы книги:  </h4>
             <i><h4> {{ author }}</h4></i>
@@ -24,11 +29,16 @@
         {% if book.comments.exists %}
             <i><h4> Количество комментариев: {{ book.count }} </h4></i>
         {% endif %}
+
         {% for comment in book.comments.all %}
+    <div id="block_comment-{{ comment.id }}">
             <h4> {{comment.text}} </h4>
             <h5> {{comment.date}} </h5>
             <h6> {{comment.author}} </h6>
-            <a href="{% url 'add_comment_like_location' id=comment.id  location=1%}"> <h5>Likes : {{ comment.count_like }} </h5></a>
+
+             <h5 class="like_comment" id="comment-{{ comment.id }}">Likes : {{ comment.count_like }} </h5>
+            <h4 class="delete_comment" id="delete_comment-{{comment.id}}"> Удалить комментарий </h4>
+    </div>
             <br><br>
         {% endfor %}
 {% if user.is_authenticated %}
@@ -39,7 +49,10 @@
     <input type="submit" value="Оставить комментарий">
 </form>
 {% endif %}
+
+<script src="{% static 'js\script.js' %}"></script>
 {% endblock %}
+
 </div>
 </body>
 </html>

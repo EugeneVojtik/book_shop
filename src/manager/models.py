@@ -1,3 +1,5 @@
+from json import loads, dumps
+
 from django.contrib.auth.models import User
 from django.db import models
 from slugify import slugify
@@ -103,7 +105,6 @@ class ShoppingBasketUser(models.Model):
     customer = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='customers_basket')
 
 
-
 class BasketContent(models.Model):
     basket = models.ForeignKey(ShoppingBasketUser, on_delete=models.CASCADE, related_name='users_purchase_list')
     product = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='basket')
@@ -122,3 +123,19 @@ class UsersBooks(models.Model):
     def __str__(self):
         return f'книга {self.book}'
 
+
+class AccountUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='git_hub_user')
+    github_account = models.CharField(max_length=100, null=True)
+    _github_repos = models.TextField(null=True)
+
+    @property
+    def github_repos(self):
+        if self._github_repos is not None:
+            return loads(self._github_repos)
+        return []
+
+    @github_repos.setter
+    def github_repos(self, value):
+        assert isinstance(value, list), "you can set list only"
+        self._github_repos = dumps(value)

@@ -43,11 +43,12 @@ class AddCommentLike(View):
             return redirect('book_detail', slug=comment.book.slug)
 
 
+
 class AddRate(View):
     def get(self, request, slug, rate, location=None):
         if request.user.is_authenticated:
-            book_id = Book.objects.get(slug=slug)
-            LikeBookUser.objects.create(book=book_id, user=request.user, rate=rate)
+            book = Book.objects.get(slug=slug)
+            LikeBookUser.objects.create(book=book, user=request.user, rate=rate)
         if location is None:
             return redirect('the-main-page')
         return redirect('book_detail', slug=slug)
@@ -62,7 +63,8 @@ class BookPage(View):
         context['book'] = book
         context['comment_form'] = CommentForm
         context['stars'] = range(1, 6)
-        read_book = UsersBooks.objects.get_or_create(user=request.user, book=book)
+        if request.user.is_authenticated:
+            UsersBooks.objects.get_or_create(user=request.user, book=book)
 
         return render(request, 'book_detail.html', context)
 

@@ -11,6 +11,8 @@ from manager.views import BookPurchase
 
 
 #http://127.0.0.1:8000/brazzers/github
+from manager.views_ajax import add_like2comment, delete_comment_ajax, add_rate_ajax
+
 urlpatterns = [
     path('add_comment_like/<int:id>/', AddCommentLike.as_view(), name='add_comment_like'),
     path('add_comment_like/<int:id>/<str:location>', AddCommentLike.as_view(), name='add_comment_like_location'),
@@ -34,6 +36,9 @@ urlpatterns = [
     path('brazzers/', brazzers_view, name='brazzers'),
     path('brazzers/github/', brazzers_callback_view, name='brazzers_callback'),
     path('', MainPage.as_view(), name='the-main-page'),
+    path('add_like2comment_ajax/', add_like2comment, name='add_like2comment_ajax'),
+    path('delete_comment_ajax', delete_comment_ajax, name='delete_comment_ajax'),
+    path('add_rate_ajax', add_rate_ajax, name='add_rate_ajax'),
 
 ]
 

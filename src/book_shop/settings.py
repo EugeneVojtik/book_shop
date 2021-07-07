@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
      'debug_toolbar',
-    'manager',
 
+    'social_django',
+    'rest_framework',
+
+    'manager',
 ]
 
 
@@ -81,23 +84,27 @@ WSGI_APPLICATION = 'book_shop.wsgi.application'
 
 import os
 
-
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PORT': '5432',
-        'HOST': 'db',
-    },
-    'old_db':{
+'default':{
     'ENGINE':'django.db.backends.sqlite3',
     'NAME': 'db.sqlite3'
-    }
 }
+}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('POSTGRES_DB'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#         'USER': os.environ.get('POSTGRES_USER'),
+#         'PORT': '5432',
+#         'HOST': 'db',
+#     },
+#     'old_db':{
+#     'ENGINE':'django.db.backends.sqlite3',
+#     'NAME': 'db.sqlite3'
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE':'django.db.backends.sqlite3',
@@ -167,31 +174,31 @@ SOCIAL_AUTH_GITHUB_SECRET = '95d5a4d487bf48bf97c403ad171205a9799a4dd6'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://cache://127.0.0.1:6379/1",
-    }
-}
-
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-
-CELERY_BROKER_URL = 'redis://cache:6379'
-CELERY_RESULT_BACKEND = 'redis://cache:6379'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-
-CELERY_BEAT_SCHEDULE = {
-    'task_first': {
-        'task': 'manager.tasks.first_task',
-        'schedule': 1.0
-    },
-    'task_second': {
-        'task': 'manager.tasks.second_task',
-        'schedule': 3.0
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://cache://127.0.0.1:6379/1",
+#     }
+# }
+#
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+#
+# CELERY_BROKER_URL = 'redis://cache:6379'
+# CELERY_RESULT_BACKEND = 'redis://cache:6379'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+#
+# CELERY_BEAT_SCHEDULE = {
+#     'task_first': {
+#         'task': 'manager.tasks.first_task',
+#         'schedule': 1.0
+#     },
+#     'task_second': {
+#         'task': 'manager.tasks.second_task',
+#         'schedule': 3.0
+#     }
+# }
 
 
 
