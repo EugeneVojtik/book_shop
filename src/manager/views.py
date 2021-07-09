@@ -1,18 +1,11 @@
-import requests
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-
-from django.views.decorators.cache import cache_page
-
 from django.db.models import Count, Prefetch, OuterRef, Exists, F, Sum
 from django.shortcuts import render, redirect
-
 from django.views import View
 from django.contrib.auth.forms import AuthenticationForm
-
 from django.core.paginator import Paginator
-
 from manager.forms import BookForm, CommentForm, CustomersFeedbackForm, CustomUserCreateForm, CustomAuthenticationForm
 from manager.models import ShoppingBasketUser, BasketContent, Book, Comment, LikeCommentUser, LikeBookUser, UsersBooks
 
@@ -41,7 +34,6 @@ class AddCommentLike(View):
             if location is None:
                 return redirect('the-main-page')
             return redirect('book_detail', slug=comment.book.slug)
-
 
 
 class AddRate(View):

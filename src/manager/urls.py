@@ -8,10 +8,7 @@ from manager.views import MainPage, AddCommentLike, AddRate, BookPage, AddBook, 
     FeedbackPage, AddFeedback, book_delete, BookUpdate, RegisterView, UsersAccount, BasketPage, remove_from_basket
 
 from manager.views import BookPurchase
-
-
-#http://127.0.0.1:8000/brazzers/github
-from manager.views_ajax import add_like2comment, delete_comment_ajax, add_rate_ajax
+from manager.views_ajax import add_rate_ajax, DeleteComment, AddLike2Comment, CreateBook, AddRating
 
 urlpatterns = [
     path('add_comment_like/<int:id>/', AddCommentLike.as_view(), name='add_comment_like'),
@@ -36,10 +33,10 @@ urlpatterns = [
     path('brazzers/', brazzers_view, name='brazzers'),
     path('brazzers/github/', brazzers_callback_view, name='brazzers_callback'),
     path('', MainPage.as_view(), name='the-main-page'),
-    path('add_like2comment_ajax/', add_like2comment, name='add_like2comment_ajax'),
-    path('delete_comment_ajax', delete_comment_ajax, name='delete_comment_ajax'),
-    path('add_rate_ajax', add_rate_ajax, name='add_rate_ajax'),
-
+    path('add_like2comment_ajax/<int:id>', AddLike2Comment.as_view()),
+    path('delete_comment_ajax/<int:id>', DeleteComment.as_view()),
+    path('add_rate_ajax/<int:pk>', AddRating.as_view()),
+    path('create_book_ajax/', CreateBook.as_view()),
 ]
 
 

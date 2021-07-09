@@ -49,15 +49,7 @@ class LikeCommentUser(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_likes')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='users_comment_likes')
 
-    def save(self, *args, **kwargs):
-        try:
-            super(LikeCommentUser, self).save()
-            self.comment.likes += 1
-        except Exception as e:
-            self.comment.likes -= 1
-            LikeCommentUser.objects.get(comment=self.comment, user=self.user).delete()
-            print(f'Like has already been added, here is an exception description: {e}')
-        self.comment.save()
+
 
 
 class Book(models.Model):

@@ -1,0 +1,68 @@
+version: "3" # Docker Version
+
+
+# Which services we will have
+services:
+  web:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: book_shop_web
+    volumes:
+      - ./src:/src
+    ports:
+      - '8000:8000'
+    command: sh -c "python3 manage.py migrate & python3 manage.py runserver 0.0.0.0:8000" 
+      #sh -c "gunicorn book_shop.wsgi:application -b 0.0.0.0:8000 -w 2"
+      
+      #sh -c 'gunicorn book_shop.wsgi:application -b 0.0.0.0:8000'
+      #sh -c "gunicorn book_shop.wsgi:application -b 0.0.0.0:8000 -w 2"
+      
+    env_file:
+      - db_keys.txt
+
+      # loadtest -n 500 http://web:8000/books/
+
+
+  db:
+    image: postgres:latest
+    container_name: book_shop_db
+    env_file:
+      - db_keys.txt
+    environment:
+      - LANG=ru_RU.UTF-8
+      - LANGUAGE=ru_RU.UTF-8
+      - LC_ALL=ru_RU.UTF-8
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer_bs
+    ports:
+      - '8080:8080'
+
+  cache:
+    image: redis:latest
+    container_name: my_cache
+    depends_on:
+      - db
+
+  node:
+    image: node:latest
+    container_name: node_
+    command: sleep 100000
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celery
+    volumes:
+      - ./src:/src
+    env_file:
+      - db_keys.txt
+    depends_on:
+      - db
+      - cache
+    command: sh -c  "celery -A book_shop worker -l INFO -B"
+
+      
